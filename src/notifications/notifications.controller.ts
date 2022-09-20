@@ -9,4 +9,9 @@ export class NotificationsController {
   async sendNotification() {
     return await this.notificationsService.sendNotification();
   }
+
+  @Get('alarme')
+  async sendAlarme() {
+    return await this.notificationsService.sendAlarme();
+  }
 }
