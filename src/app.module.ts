@@ -11,7 +11,10 @@ const path = require('path');
   imports: [
     NotificationsModule,
     FcmModule.forRoot({
-      firebaseSpecsPath: path.join(__dirname, '../firebase.credentials.json'),
+      firebaseSpecsPath: path.join(
+        __dirname,
+        '../teste-stac-firebase-adminsdk-vpqqq-df4a6ddfbe.json',
+      ),
     }),
     ConfigModule.forRoot(),
   ],

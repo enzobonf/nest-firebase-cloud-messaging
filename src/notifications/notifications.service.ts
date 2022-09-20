@@ -6,8 +6,21 @@ export class NotificationsService {
   constructor(private readonly fcmService: FcmService) {}
 
   async sendNotification() {
-    const devices = [];
+    const devices = JSON.parse(process.env.DEVICES);
 
-    await this.fcmService.sendNotification();
+    return await this.fcmService.sendNotification(
+      devices,
+      {
+        data: {
+          propriedades: 'Sim',
+          aviarios: 'não',
+        },
+        notification: {
+          body: 'aaaaaa',
+          title: 'Teste de notificação',
+        },
+      },
+      false,
+    );
   }
 }
