@@ -1,9 +1,10 @@
 import { FcmService } from '@doracoder/fcm-nestjs';
 import { Injectable } from '@nestjs/common';
 
-import { initializeApp, applicationDefault, cert } from 'firebase-admin/app';
 import { getFirestore, Timestamp, FieldValue } from 'firebase-admin/firestore';
 import * as fs from 'fs';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path');
 
 enum TipoNotificacao {
   NOTIFICACAO = '1',
@@ -14,13 +15,16 @@ enum TipoNotificacao {
 export class NotificationsService {
   credentials: any;
 
-  constructor(private readonly fcmService: FcmService) {
-    this.credentials = fs.readFileSync('..\\..\\firebase.credentials.json');
-    console.log(this.credentials);
-  }
+  constructor(private readonly fcmService: FcmService) {}
 
   async sendNotification() {
     const devices = JSON.parse(process.env.DEVICES);
+    const db = getFirestore();
+
+    const snapshot = await db.collection('users').get();
+    snapshot.forEach((doc) => {
+      console.log(doc.id, '=>', doc.data());
+    });
 
     return await this.fcmService.sendNotification(
       devices,
