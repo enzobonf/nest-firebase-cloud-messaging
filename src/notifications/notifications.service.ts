@@ -1,6 +1,10 @@
 import { FcmService } from '@doracoder/fcm-nestjs';
 import { Injectable } from '@nestjs/common';
 
+import { initializeApp, applicationDefault, cert } from 'firebase-admin/app';
+import { getFirestore, Timestamp, FieldValue } from 'firebase-admin/firestore';
+import * as fs from 'fs';
+
 enum TipoNotificacao {
   NOTIFICACAO = '1',
   ALARME = '2',
@@ -8,7 +12,12 @@ enum TipoNotificacao {
 
 @Injectable()
 export class NotificationsService {
-  constructor(private readonly fcmService: FcmService) {}
+  credentials: any;
+
+  constructor(private readonly fcmService: FcmService) {
+    this.credentials = fs.readFileSync('..\\..\\firebase.credentials.json');
+    console.log(this.credentials);
+  }
 
   async sendNotification() {
     const devices = JSON.parse(process.env.DEVICES);
