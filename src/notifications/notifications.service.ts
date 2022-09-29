@@ -1,10 +1,7 @@
 import { FcmService } from '@doracoder/fcm-nestjs';
 import { Injectable } from '@nestjs/common';
 
-import { getFirestore, Timestamp, FieldValue } from 'firebase-admin/firestore';
-import * as fs from 'fs';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const path = require('path');
+import { getFirestore } from 'firebase-admin/firestore';
 
 enum TipoNotificacao {
   NOTIFICACAO = '1',
@@ -13,21 +10,13 @@ enum TipoNotificacao {
 
 @Injectable()
 export class NotificationsService {
-  credentials: any;
-
   constructor(private readonly fcmService: FcmService) {}
 
   async sendNotification() {
-    const devices = JSON.parse(process.env.DEVICES);
-    const db = getFirestore();
-
-    const snapshot = await db.collection('users').get();
-    snapshot.forEach((doc) => {
-      console.log(doc.id, '=>', doc.data());
-    });
+    const tokens = await this.getTokens();
 
     return await this.fcmService.sendNotification(
-      devices,
+      tokens,
       {
         data: {
           propriedades: 'Sim',
@@ -42,10 +31,10 @@ export class NotificationsService {
   }
 
   async sendAlarme() {
-    const devices = JSON.parse(process.env.DEVICES);
+    const tokens = await this.getTokens();
 
     return await this.fcmService.sendNotification(
-      devices,
+      tokens,
       {
         data: {
           propriedades: 'Sim',
@@ -58,5 +47,13 @@ export class NotificationsService {
       },
       false,
     );
+  }
+
+  private async getTokens() {
+    const db = getFirestore();
+
+    const doc = await db.collection('users').doc(process.env.EMAIL_DOC).get();
+
+    return doc.data().tokens;
   }
 }
