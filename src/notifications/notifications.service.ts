@@ -37,13 +37,9 @@ export class NotificationsService {
       tokens,
       {
         data: {
-          propriedades: 'Sim',
-          aviarios: 'não',
           id_aviario: '1',
           tipo: TipoNotificacao.ALARME,
-          title: 'Alarme na Propriedade Teste',
-          body: 'descrição',
-
+          value: '30° C',
           value_1: '14:44 30/09/2022',
           icon_1: 'time',
           value_2: 'Temperatura maior que 27° C',
@@ -52,8 +48,8 @@ export class NotificationsService {
           icon_3: 'time',
           value_4: 'Sonda na posicao 3',
           icon_4: 'time',
-          value_5: null,
-          icon_5: null,
+          value_5: '',
+          icon_5: '',
         },
       },
       false,
