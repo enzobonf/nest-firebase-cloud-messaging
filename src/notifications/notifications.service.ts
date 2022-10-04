@@ -53,7 +53,7 @@ export class NotificationsService {
           icon_1: 'schedule',
           value_2: 'Temperatura maior que 27 °C',
           icon_2: 'info',
-          value_3: 'Aviário Galpãio A',
+          value_3: 'Aviário Galpão A',
           icon_3: 'home',
           value_4: 'Sonda na posição 3',
           icon_4: 'wifi-tethering',
